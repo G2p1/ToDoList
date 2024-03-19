@@ -15,7 +15,6 @@ const TaskList = () =>{
         }
         TaskArray.push(defaultTask);
         setTasks(TaskArray);
-        console.log(tasks);
     },[]);
 
     return (
