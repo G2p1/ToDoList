@@ -1,0 +1,22 @@
+.task{
+    border: 1px solid black;
+    border-radius: 15px;
+    background-image: linear-gradient(rgb(255, 255, 255) 0.1%,rgb(0, 255, 255)) ;
+    box-shadow: 3px 3px 15px;
+
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 10vh;
+    width:  50vw;
+
+}
+.head-task{
+    padding-left: 2%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-bottom: 2px black solid;
+
+}
+.body-task{
+    padding: 2% 5% 2% 5%;
+}
