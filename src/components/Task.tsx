@@ -1,13 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import "./css/Task.css";
 
-const Task = () => {
-  const [head, setHead] = useState("");
-  const [body, setBody] = useState("");
+interface Props {
+  children?:ReactNode,
+  id:string,
+  head:string,
+  body:string,
+  changeContent:Function
+}
+
+const Task = ({children, id, head, body, changeContent}:Props) => {
+  const [headContent, setHead] = useState("");
+  const [bodyContent, setBody] = useState("");
 
   useEffect(() => {
-    setHead("Task Head");
-    setBody("Task Body");
+    setHead(head);
+    setBody(body);
   }, []);
 
   function changeHead(e:React.FocusEvent):void{
@@ -15,6 +23,8 @@ const Task = () => {
         let content: string = e.currentTarget.textContent;
         setHead(content);
       }
+
+      changeContent(id, headContent, bodyContent);
   }
 
   function changeBody(e: React.FocusEvent): void {
@@ -22,17 +32,19 @@ const Task = () => {
       let content: string = e.currentTarget.textContent;
       setBody(content);
     }
+
+    changeContent(id, headContent, bodyContent);
   }
 
   return (
-    <div className="task">
+    <div className={"task"}>
       <div
         className="head-task"
         contentEditable="true"
         suppressContentEditableWarning={true}
         onBlur={(e) => changeHead(e)}
       >
-        {head}
+        {headContent}
       </div>
       <div
         className="body-task"
@@ -40,8 +52,9 @@ const Task = () => {
         onBlur={(e) => changeBody(e)}
         suppressContentEditableWarning={true}
       >
-        {body}
+        {bodyContent}
       </div>
+      {children}
     </div>
   );
 };
