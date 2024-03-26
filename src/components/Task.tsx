@@ -2,14 +2,14 @@ import { useEffect, useState, ReactNode } from "react";
 import "./css/Task.css";
 
 interface Props {
-  children?:ReactNode,
-  id:string,
-  head:string,
-  body:string,
-  changeContent:Function
+  children?: ReactNode;
+  id: string;
+  head: string;
+  body: string;
+  changeContent: Function;
 }
 
-const Task = ({children, id, head, body, changeContent}:Props) => {
+const Task = ({ children, id, head, body, changeContent }: Props) => {
   const [headContent, setHead] = useState("");
   const [bodyContent, setBody] = useState("");
 
@@ -18,13 +18,19 @@ const Task = ({children, id, head, body, changeContent}:Props) => {
     setBody(body);
   }, []);
 
-  function changeHead(e:React.FocusEvent):void{
-    if (e.currentTarget.textContent) {
-        let content: string = e.currentTarget.textContent;
-        setHead(content);
-      }
+  useEffect(()=>{
+    changeContent(id, headContent, bodyContent);
+  },[headContent, bodyContent])
 
-      changeContent(id, headContent, bodyContent);
+  function changeHead(e: React.FocusEvent): void {
+    let content: string = head
+    if(e.currentTarget.textContent == null){
+      return;
+    }
+    content = e.currentTarget.textContent;
+      setHead(content);
+    
+
   }
 
   function changeBody(e: React.FocusEvent): void {
@@ -32,8 +38,6 @@ const Task = ({children, id, head, body, changeContent}:Props) => {
       let content: string = e.currentTarget.textContent;
       setBody(content);
     }
-
-    changeContent(id, headContent, bodyContent);
   }
 
   return (
