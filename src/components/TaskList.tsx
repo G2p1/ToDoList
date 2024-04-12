@@ -6,28 +6,30 @@ import "./css/TaskList.css";
 import { uid } from "uid";
 
 const TaskList = () => {
+  const defaultTask: TaskType = {
+    id: uid(),
+    head: "Task name",
+    body: "Task Body",
+  };
+
   const [tasks, setTasks] = useState(Array<TaskType>);
 
   useEffect(() => {
     let checkLocaleTasks = localStorage.getItem("tasks");
-    if (checkLocaleTasks) {
-      let localeTasks = JSON.parse(checkLocaleTasks);
-      console.log(localeTasks);
-      setTasks([...localeTasks]);
-      console.log(localeTasks);
-    } else {
-      const defaultTask = {
-        id: uid(),
-        head: "Task name",
-        body: "Task Body",
-      };
-      setTasks([...tasks, defaultTask]);
+    let localeTasks:Array<TaskType>
+    if(checkLocaleTasks){
+    localeTasks = JSON.parse(checkLocaleTasks);}
+    else{
+      localeTasks = [defaultTask];
     }
-
-    console.log(tasks);
+    setTasks(localeTasks);
   }, []);
 
-
+  useEffect(() => {
+    if (tasks.length>0) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks]);
 
   function createTask() {
     const addTask = {
@@ -36,22 +38,17 @@ const TaskList = () => {
       body: "Task Body",
     };
     setTasks([...tasks, addTask]);
-
-    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 
   function remooveTask(id: string) {
     setTasks(tasks.filter((item) => item.id !== id));
-    
-    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 
   function changeContent(id: string, head: string, body: string) {
     let index = tasks.findIndex((item) => item.id == id);
     tasks[index].body = body;
     tasks[index].head = head;
-
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    setTasks([...tasks]);
   }
 
   return (
